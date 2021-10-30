@@ -47,23 +47,6 @@ const run = async() => {
             res.send(result);
         });
 
-        app.get('/orders/:id', async (req, res) => {
-            const {id} = req.params;
-            const query = { email: id };
-            const cursor = orders.find(query);
-
-            const dataReturn = async() => {
-                return cursor.toArray();
-            };
-
-            const results = await dataReturn();
-
-            if (results.length != 0) {
-                console.log(results);
-                res.send(results);
-            }
-        });
-
         app.delete('/orders/:id', async (req, res) => {
             const { id } = req.params;
             query = { _id: ObjectId(id) };
@@ -76,14 +59,21 @@ const run = async() => {
         });
 
         app.get('/orders', async (req, res) => {
-            const result = await orders.findOne({});
+            const cursor = orders.find({});
+        
+            const dataReturn = async() => {
+                return cursor.toArray();
+            };
+            
+            const results = await dataReturn();
 
-            if (result) {
-                res.send(result);
+
+            if (results) {
+                res.send(results);
             }
-            else {
-                res.send('Waiting for Data...');
-            }
+            // else {
+            //     res.send('Waiting for Data...');
+            // }
         });
 
         app.post('/orders', async (req, res) => {

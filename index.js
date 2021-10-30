@@ -16,7 +16,7 @@ const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
 app.get('/', (req, res) => {
-    res.send("Server Running Happily");
+    res.send("Server Running Happily...");
 });
 
 
@@ -47,6 +47,23 @@ const run = async() => {
             res.send(result);
         });
 
+        app.get('/orders/:id', async (req, res) => {
+            const {id} = req.params;
+            const query = { email: id };
+            const cursor = orders.find(query);
+
+            const dataReturn = async() => {
+                return cursor.toArray();
+            };
+
+            const results = await dataReturn();
+
+            if (results.length != 0) {
+                console.log(results);
+                res.send(results);
+            }
+        });
+
         app.get('/orders', async (req, res) => {
             const result = await orders.findOne({});
 
@@ -54,7 +71,7 @@ const run = async() => {
                 res.send(result);
             }
             else {
-                res.send('Waiting for Data');
+                res.send('Waiting for Data...');
             }
         });
 

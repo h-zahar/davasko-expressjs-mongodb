@@ -64,6 +64,17 @@ const run = async() => {
             }
         });
 
+        app.delete('/orders/:id', async (req, res) => {
+            const { id } = req.params;
+            query = { _id: ObjectId(id) };
+            const result = await orders.deleteOne(query);
+
+            if (result.deletedCount === 1) {
+                res.json(result);
+                console.log(result);
+            }
+        });
+
         app.get('/orders', async (req, res) => {
             const result = await orders.findOne({});
 
@@ -78,6 +89,7 @@ const run = async() => {
         app.post('/orders', async (req, res) => {
             const doc = req.body;
             const result = await orders.insertOne(doc);
+            res.json(result);
         });
 
     } finally {

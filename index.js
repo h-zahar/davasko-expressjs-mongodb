@@ -58,6 +58,35 @@ const run = async() => {
             }
         });
 
+        // app.put('/orders/:id', async (req, res) => {
+        //     const { id } = req.params;
+        //     const updated = req.body;
+        //     // console.log(reversed);
+        //     // query = { _id: ObjectId(id) };
+        //     // const result = await orders.findOne(query);
+
+        //     const filter = { _id: ObjectId(id) };
+
+        //     const updateDoc = {
+        //         $set: {
+        //             isAproved: !updated.isAproved
+        //         },
+        //     };
+
+        //     const result = await orders.updateOne(filter, updateDoc);
+        //     res.json(result);
+        //     console.log(result);
+
+        // });
+
+        app.get('/orders/:id', async (req, res) => {
+                const { id } = req.params;
+                const query = { _id: ObjectId(id) };
+
+                const result = await orders.findOne(query);
+                res.send(result);
+            })
+
         app.get('/orders', async (req, res) => {
             const cursor = orders.find({});
         
@@ -68,7 +97,7 @@ const run = async() => {
             const results = await dataReturn();
 
 
-            if (results) {
+            if (results.length > 0) {
                 res.send(results);
             }
             // else {
@@ -78,6 +107,8 @@ const run = async() => {
 
         app.post('/orders', async (req, res) => {
             const doc = req.body;
+            const key = 'isAproved';
+            doc[key] = false;
             const result = await orders.insertOne(doc);
             res.json(result);
         });

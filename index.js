@@ -20,7 +20,6 @@ app.get('/', (req, res) => {
 });
 
 
-// func mongo
 const run = async() => {
     try {
         await client.connect();

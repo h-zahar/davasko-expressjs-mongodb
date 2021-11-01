@@ -1,6 +1,6 @@
 # davasko-backend
 
-Live API: <a href="https://morning-ridge-69827.herokuapp.com/">click Here</a><br />
+Live API: <a href="https://morning-ridge-69827.herokuapp.com/">Click Here</a><br />
 
 This is live API server of Davasko, a travel agency. It contains necessary info of offerings, users, orders and helps to serve the requests.<br /><br />
 

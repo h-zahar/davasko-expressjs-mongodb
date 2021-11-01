@@ -41,10 +41,17 @@ const run = async() => {
 
         app.get('/offerings/:id', async (req, res) => {
             const {id} = req.params;
-            const query = { _id: ObjectId(id) }
+            const query = { _id: ObjectId(id) };
 
             const result = await offerings.findOne(query);
             res.send(result);
+        });
+
+        app.post('/offerings', async (req, res) => {
+            const doc = req.body;
+            const result = await offerings.insertOne(doc);
+            console.log(result);
+            res.json(result);
         });
 
         app.delete('/orders/:id', async (req, res) => {
@@ -58,8 +65,7 @@ const run = async() => {
             }
         });
 
-        // app.put('/orders/:id', async (req, res) => {
-        //     const { id } = req.params;
+        // app.put('/orders', async (req, res) => {
         //     const updated = req.body;
         //     // console.log(reversed);
         //     // query = { _id: ObjectId(id) };
@@ -84,7 +90,14 @@ const run = async() => {
                 const query = { _id: ObjectId(id) };
 
                 const result = await orders.findOne(query);
-                res.send(result);
+                if(result) {
+                    res.send(result);
+                }
+
+                else {
+                    res.json({});
+                }
+                
             })
 
         app.get('/orders', async (req, res) => {
@@ -100,9 +113,9 @@ const run = async() => {
             if (results.length > 0) {
                 res.send(results);
             }
-            // else {
-            //     res.send('Waiting for Data...');
-            // }
+            else {
+                res.json([]);
+            }
         });
 
         app.post('/orders', async (req, res) => {

@@ -65,25 +65,36 @@ const run = async() => {
             }
         });
 
-        // app.put('/orders', async (req, res) => {
-        //     const updated = req.body;
-        //     // console.log(reversed);
-        //     // query = { _id: ObjectId(id) };
-        //     // const result = await orders.findOne(query);
+        app.put('/orders', async (req, res) => {
+            const updated = req.body;
 
-        //     const filter = { _id: ObjectId(id) };
+            const filter = { _id: ObjectId(updated._id) };
+               
+               let updateDoc = {};
+               if(updated.isAproved)
+               {
+                updated.isAproved = false;
+                updateDoc = {
+                    $set: {
+                        isAproved: false
+                    },
+                };
+               }
 
-        //     const updateDoc = {
-        //         $set: {
-        //             isAproved: !updated.isAproved
-        //         },
-        //     };
+               else {
+                updated.isAproved = true;
+                updateDoc = {
+                    $set: {
+                        isAproved: true
+                    },
+                };
+               }
 
-        //     const result = await orders.updateOne(filter, updateDoc);
-        //     res.json(result);
-        //     console.log(result);
+            const result = await orders.updateOne(filter, updateDoc);
+            res.json(updated);
+            console.log(updated);
 
-        // });
+        });
 
         app.get('/orders/:id', async (req, res) => {
                 const { id } = req.params;

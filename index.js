@@ -1,8 +1,9 @@
 const express = require('express');
+const app = express();
 const cors = require('cors');
 require('dotenv').config();
 
-const app = express();
+
 const port = process.env.PORT || 5000;
 
 app.use(cors());
@@ -15,9 +16,7 @@ const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster
 
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
-app.get('/', (req, res) => {
-    res.send("Server Running Happily...");
-});
+
 
 
 const run = async() => {
@@ -139,9 +138,12 @@ const run = async() => {
     } finally {
         // await client.close();
     }
-};
+}
 run().catch(console.dir);
 
+app.get('/', (req, res) => {
+    res.send("Server Running Happily...");
+});
 
 app.listen(port, () => {
     console.log(`Listening at port ${port}`);

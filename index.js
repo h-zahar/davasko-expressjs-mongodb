@@ -34,7 +34,7 @@ const run = async() => {
             };
             
             const results = await dataReturn();
-            res.send(results);
+            res.json(results);
         });
 
         app.get('/offerings/:id', async (req, res) => {
@@ -42,7 +42,7 @@ const run = async() => {
             const query = { _id: ObjectId(id) };
 
             const result = await offerings.findOne(query);
-            res.send(result);
+            res.json(result);
         });
 
         app.post('/offerings', async (req, res) => {
@@ -100,7 +100,7 @@ const run = async() => {
 
                 const result = await orders.findOne(query);
                 if(result) {
-                    res.send(result);
+                    res.json(result);
                 }
 
                 else {
@@ -120,7 +120,7 @@ const run = async() => {
 
 
             if (results.length > 0) {
-                res.send(results);
+                res.json(results);
             }
             else {
                 res.json([]);
